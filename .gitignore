@@ -1,0 +1,9 @@
+# output
+dist/
+
+# package manager
+node_modules/
+
+# development related
+*-debug.log*
+*-error.log*

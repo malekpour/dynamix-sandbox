@@ -1,0 +1,148 @@
+{
+  "model": {
+    "type": "object",
+    "properties": {
+      "project": {
+        "type": "object",
+        "default": {},
+        "properties": {
+          "name": {
+            "type": "object",
+            "default": {
+              "value": "World"
+            },
+            "properties": {
+              "value": {
+                "type": "string",
+                "optional": false
+              }
+            }
+          },
+          "taskcount": {
+            "type": "computed",
+            "expression": "5 + 3"
+          },
+          "something": {
+            "type": "object",
+            "default": {
+              "value": ""
+            },
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "createdBy": {
+                "type": "string"
+              },
+              "createdOn": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "tasks": {
+        "type": "array",
+        "default": [
+          { "title": "task 1", "done": true },
+          { "title": "task 2", "done": false }
+        ],
+        "items": {
+          "type": "object",
+          "default": {
+            "title": "",
+            "done": false
+          },
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "done": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  },
+  "view": {
+    "root": [
+      {
+        "<>": "h1",
+        "children": "#Hello ${$root.project.name.value}! ${$root.project.taskcount}"
+      },
+      {
+        "<>": "label",
+        "style": { "display": "block" },
+        "children": [
+          "name: ",
+          {
+            "<>": "input",
+            "value": "#= $root.project.name.value",
+            "onChange": "%= [$root, 'replace', '/project/name/value', $event.target.value]"
+          }
+        ]
+      },
+      {
+        "<>": "label",
+        "style": { "display": "block" },
+        "children": [
+          "something: ",
+          {
+            "<>": "input",
+            "value": "#= $root.project.something.value",
+            "onChange": "%= [$root, 'replace', '/project/something/value', $event.target.value]"
+          }
+        ]
+      },
+      {
+        "<>": "div",
+        "style": {
+          "display": "flex",
+          "gap": "1rem",
+          "padding": "1rem 0"
+        },
+        "children": [
+          {
+            "<>": "button",
+            "children": "Add Task (button - native)",
+            "onClick": "%= [$root, 'add', '/tasks/']"
+          },
+          {
+            "<>": "Button",
+            "children": "Add Task (Button - registered component)",
+            "onClick": "%= [$root, 'add', '/tasks/']"
+          }
+        ]
+      },
+      {
+        "[]": "#= $root.tasks",
+        "template": {
+          "<>": "div",
+          "children": [
+            {
+              "<>": "div",
+              "children": "#Task ${$self.title}"
+            },
+            {
+              "<>": "input",
+              "type": "checkbox",
+              "checked": "#= $self.done",
+              "onChange": "%= [$self, 'replace', '/done', !$self.done]"
+            },
+            {
+              "<>": "input",
+              "value": "#= $self.title",
+              "onChange": "%= [$self, 'replace', '/title', $event.target.value]"
+            },
+            {
+              "<>": "button",
+              "onClick": "%= [$root, 'remove',  '/tasks/' + $index ]",
+              "children": "X"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
