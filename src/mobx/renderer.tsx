@@ -1,7 +1,6 @@
 import { ValueExpression } from "adaptive-expressions";
-import { observer, Observer, useObserver } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
 import { applyPatch } from "mobx-state-tree";
-import React, { createContext, useContext } from "react";
 
 type EntryBase = { "<>"?: string; [key: string]: unknown };
 type EntryText = string | number;
