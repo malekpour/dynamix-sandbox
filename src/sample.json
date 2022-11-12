@@ -20,7 +20,7 @@
           },
           "taskcount": {
             "type": "computed",
-            "expression": "5 + 3"
+            "expression": "return 5 + 3"
           },
           "something": {
             "type": "object",
@@ -69,7 +69,7 @@
     "root": [
       {
         "<>": "h1",
-        "children": "#Hello ${$root.project.name.value}! ${$root.project.taskcount}"
+        "children": "#Hello ${$root.project.name.value}!"
       },
       {
         "<>": "label",
@@ -116,6 +116,14 @@
         ]
       },
       {
+        "<>": "div",
+        "children": "#Total Tasks (inline): ${count($root.tasks)}"
+      },
+      {
+        "<>": "div",
+        "children": "#Total Tasks (computed): ${$root.project.taskcount}"
+      },
+      {
         "[]": "#= $root.tasks",
         "template": {
           "<>": "div",
@@ -137,7 +145,7 @@
             },
             {
               "<>": "button",
-              "onClick": "%= [$root, 'remove',  '/tasks/' + $index ]",
+              "onClick": "%= [$root, 'remove',  `/tasks/${$index}` ]",
               "children": "X"
             }
           ]

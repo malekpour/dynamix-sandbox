@@ -12,6 +12,8 @@ const modelType = ComplexPropertyModel.create(sample.model).runtimeType();
 
 const model = modelType.create({} as any) as any;
 
+(globalThis as any).model = model;
+
 const View = observer(() => {
   const view = useMemo(
     () => renderView(sample.view, { $root: model, $self: model }),
@@ -19,11 +21,13 @@ const View = observer(() => {
   );
 
   return (
-    <>
-      {view}
-      <pre>{JSON.stringify(model, null, "  ")}</pre>
-      <code>{modelType.describe()}</code>
-    </>
+    <div className="main">
+      <div className="view">{view}</div>
+      <div className="code">
+        <pre>{JSON.stringify(model, null, "  ")}</pre>
+        <code>{modelType.describe()}</code>
+      </div>
+    </div>
   );
 });
 
